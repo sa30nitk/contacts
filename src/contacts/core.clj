@@ -1,7 +1,10 @@
 (ns contacts.core
-  (:gen-class))
+  (:require [ring.adapter.jetty :as jetty]))
 
-(defn -main
-  "I don't do a whole lot ... yet."
-  [& args]
-  (println "Hello, World!"))
+(defn handler [request]
+  {:status  200
+   :headers {"Content-Type" "text/html"}
+   :body    "Hello world"})
+
+(defn -main []
+  (jetty/run-jetty handler {:port 3000}))
