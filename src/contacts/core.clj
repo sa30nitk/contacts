@@ -1,10 +1,15 @@
 (ns contacts.core
-  (:require [ring.adapter.jetty :as jetty]))
+  (:require [ring.adapter.jetty :as jetty]
+            [ring.middleware.session :refer [wrap-session]]
+            [ring.middleware.flash :refer [wrap-flash]]
+            [contacts.handler :refer [handler]]))
 
-(defn handler [request]
-  {:status  200
-   :headers {"Content-Type" "text/html"}
-   :body    "Hello world"})
+(def app
+  (-> handler
+      wrap-session
+      wrap-flash))
 
 (defn -main []
-  (jetty/run-jetty handler {:port 3000}))
+  (println "Started main")
+  (jetty/run-jetty app {:port 3000}))
+
