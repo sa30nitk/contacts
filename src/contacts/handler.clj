@@ -12,6 +12,12 @@
   (println route-params)
   (res/response (str "contacts details handler " (:id route-params))))
 
+(def internal-routes ["" {["contact/" :id] {:post contactDetailsHandler}}])
+
+(def routes ["/" [["ping" pingHandler]
+                  internal-routes
+                  [true (constantly {:status 404})]]])
+
 (def handler
-  (make-handler ["/" {"ping"           pingHandler
-                      ["contact/" :id] contactDetailsHandler}]))
+  (make-handler routes))
+
