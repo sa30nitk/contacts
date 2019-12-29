@@ -5,7 +5,9 @@
   :dependencies [[org.clojure/clojure "1.10.0"]
                  [ring/ring-core "1.8.0"]
                  [ring/ring-jetty-adapter "1.8.0"]
-                 [bidi "2.1.6"]]
+                 [bidi "2.1.6"]
+                 ; Database migrations
+                 [ragtime "0.8.0"]]
   :main contacts.core
   :target-path "target/%s"
   :plugins [[lein-cljfmt "0.6.4"]
