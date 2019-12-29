@@ -8,4 +8,7 @@
                  [bidi "2.1.6"]]
   :main contacts.core
   :target-path "target/%s"
+  :plugins [[lein-cljfmt "0.6.4"]
+            [lein-cloverage "1.0.13"]
+            [jonase/eastwood "0.3.5"]]
   :profiles {:uberjar {:aot :all}})
