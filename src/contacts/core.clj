@@ -9,7 +9,9 @@
       wrap-session
       wrap-flash))
 
-(defn -main []
+(defn -main [& args]
   (println "Started main")
-  (jetty/run-jetty app {:port 3000}))
+  (case (first args)
+    "migrate" (constantly (print "trying migration"))
+    (jetty/run-jetty app {:port 3000})))
 
