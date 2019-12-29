@@ -15,6 +15,7 @@
 
 (defn- migration-config
   []
+  (println "entered migration config")
   {:datastore  (jdbc/sql-database db)
    :migrations (jdbc/load-resources "migrations")
    :reporter   (fn [_ op id]
@@ -25,6 +26,3 @@
 (defn migrate []
   (println "started migration")
   (ragtime/migrate (migration-config)))
-
-(defn migrate []
-  (println "started migration"))
