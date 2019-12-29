@@ -6,8 +6,15 @@
                  [ring/ring-core "1.8.0"]
                  [ring/ring-jetty-adapter "1.8.0"]
                  [bidi "2.1.6"]
-                 ; Database migrations
-                 [ragtime "0.8.0"]]
+
+                 ;; log4j is only for dependencies.
+                 [org.apache.logging.log4j/log4j-slf4j-impl "2.11.2"]
+
+                 ;; Database migrations
+                 [ragtime "0.8.0"]
+                 [hikari-cp "2.7.1"]
+                 [org.clojure/java.jdbc "0.7.9"]
+                 [org.postgresql/postgresql "42.2.5"]]
   :main contacts.core
   :target-path "target/%s"
   :plugins [[lein-cljfmt "0.6.4"]
