@@ -12,7 +12,6 @@
 
                  ;; Database migrations
                  [ragtime "0.8.0"]
-                 [hikari-cp "2.7.1"]
                  [org.clojure/java.jdbc "0.7.9"]
                  [org.postgresql/postgresql "42.2.5"]]
   :main contacts.core
