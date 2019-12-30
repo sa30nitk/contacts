@@ -2,10 +2,10 @@
   (:require [ring.adapter.jetty :as jetty]
             [ring.middleware.session :refer [wrap-session]]
             [ring.middleware.flash :refer [wrap-flash]]
-            [contacts.handler :refer [handler]]
+            [contacts.routes :refer [handler]]
             [contacts.db-migrations :as migrations]))
 
-(def app
+(def ^:private app
   (-> handler
       wrap-session
       wrap-flash))

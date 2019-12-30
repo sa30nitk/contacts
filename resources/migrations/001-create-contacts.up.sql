@@ -1,1 +1,1 @@
-CREATE TABLE contact (id text);
+CREATE TABLE contact (id text PRIMARY KEY);

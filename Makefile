@@ -6,6 +6,9 @@ all: clean deps test
 
 db-setup: db-user-create db-create db-migrate
 
+compile:
+	lein compile
+
 test:
 	lein test
 

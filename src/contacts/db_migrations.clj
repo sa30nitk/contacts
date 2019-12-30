@@ -9,11 +9,11 @@
 ;     :user        "gojek"
 ;     :password    ""}))
 
-(def db
+(def ^:private db
   (format "jdbc:%s://%s:%s/%s?user=%s&password=%s"
           "postgresql" "localhost" 5432 "contacts" "gojek" ""))
 
-(defn- migration-config
+(defn- ^:private migration-config
   []
   (println "entered migration config")
   {:datastore  (jdbc/sql-database db)
