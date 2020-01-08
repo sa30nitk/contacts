@@ -11,19 +11,20 @@
 
 (defn uuid [] (str (java.util.UUID/randomUUID)))
 
-(defn contactDetailsHandler
+(defn getContact
   [{:keys [route-params]}]
   (println route-params)
-  (j/insert-multi! pg-db :contact
-                   [{:id (:id route-params)}])
-  (res/response (str "contacts details handler " (:id route-params))))
+  (let [contact (j/get-by-id pg-db :contact (:id route-params))]
+    (prn contact)
+    (if (not= contact nil) (res/response contact) (res/not-found (str "Contact not found")))))
 
 (defn createContactHandler
-  [{:keys [body]}]
-  (println body)
-  (prn (walk/keywordize-keys body))
-  (let [contactOnlyMap (select-keys (walk/keywordize-keys body)  [:firstName :lastName :phoneNumber :email :favourite])
-        contactOnlyMapWithUUID (merge contactOnlyMap {:id (uuid)})]
-    (j/insert-multi! pg-db :contact [contactOnlyMapWithUUID]))
-  (res/response "contact created successfully"))
+  [request]
+  (println request)
+  (let [body            (request :body)
+        keywordizeBody  (walk/keywordize-keys body)
+        contact         (select-keys keywordizeBody [:firstName :lastName :phoneNumber :email :favourite])
+        contactWithUUID (merge contact {:id (uuid)})]
+    (j/insert-multi! pg-db :contact [contactWithUUID])
+    (res/created (str "http://localhost:3000/contacts/" (:id contactWithUUID)))))
 

@@ -3,8 +3,8 @@
             [bidi.ring :refer [make-handler]]
             [contacts.handlers.contact :as contact]))
 
-(def ^:private internal-routes ["" {"contact"        {:post contact/createContactHandler}
-                                    ["contact/" :id] {:post contact/contactDetailsHandler}}])
+(def ^:private internal-routes ["" {"contacts"        {:post contact/createContactHandler}
+                                    ["contacts/" :id] {:get contact/getContact}}])
 
 (def ^:private routes ["/" [["ping" ping/pingHandler]
                             internal-routes
