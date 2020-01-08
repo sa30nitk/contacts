@@ -28,3 +28,8 @@
     (j/insert-multi! pg-db :contact [contactWithUUID])
     (res/created (str "http://localhost:3000/contacts/" (:id contactWithUUID)))))
 
+(defn getContactsHandler [request]
+  (prn request)
+  (let [contacts (j/query pg-db ["select * from contact"])]
+    (prn contacts)
+    (if (not= contacts nil) (res/response contacts) (res/response {}))))
