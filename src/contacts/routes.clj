@@ -6,6 +6,7 @@
 (def ^:private internal-routes ["v1/" {"contacts" {:get    {""        contact/getContactsHandler
                                                             ["/" :id] contact/getContact}
                                                    :post   contact/createContactHandler
+                                                   :patch  contact/patchContactHandler
                                                    :delete {["/" :id] contact/deleteContactHandler}}}])
 (def ^:private routes ["/" [["ping" ping/pingHandler]
                             internal-routes

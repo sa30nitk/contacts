@@ -41,3 +41,14 @@
   (let [contacts (j/query pg-db ["select * from contact"])]
     (prn contacts)
     (if (not= contacts nil) (res/response contacts) (res/response {}))))
+
+(defn patchContactHandler
+  [request]
+  (println request)
+  (let [body            (request :body)
+        keywordizeBody  (walk/keywordize-keys body)
+        id              (:id keywordizeBody)
+        contact         (select-keys keywordizeBody [:firstName :lastName :phoneNumber :email :favourite])
+        isUpdated (j/update! pg-db :contact contact ["id = ?" id])]
+    (prn isUpdated)
+    (if (= isUpdated (list 1)) (res/response "Successful update") (res/not-found "Update failed"))))
