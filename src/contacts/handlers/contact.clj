@@ -18,6 +18,14 @@
     (prn contact)
     (if (not= contact nil) (res/response contact) (res/not-found (str "Contact not found")))))
 
+(defn deleteContactHandler
+  [{:keys [route-params]}]
+  (println route-params)
+  (let [isDeleted (j/delete! pg-db :contact ["id = ?" (:id route-params)])]
+    (prn isDeleted)
+    (prn (= isDeleted (list 1)))
+    (if (= isDeleted (list 1)) (res/response "Successfully deleted") (res/not-found (str "Contact not found")))))
+
 (defn createContactHandler
   [request]
   (println request)
