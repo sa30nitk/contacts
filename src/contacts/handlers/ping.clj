@@ -3,5 +3,4 @@
 
 (defn pingHandler
   [request]
-  (println request)
   (res/response "pong"))
