@@ -5,7 +5,8 @@
             [ring.middleware.params :refer [wrap-params]]
             [ring.middleware.json :refer [wrap-json-body wrap-json-response]]
             [ring.middleware.keyword-params :refer [wrap-keyword-params]]
-            [contacts.routes :refer [handler]]
+            [ring.middleware.reload :refer [wrap-reload]]
+            [contacts.routes :as routes]
             [contacts.db-migrations :as migrations]))
 
 (defn wrap-prn-response
@@ -33,20 +34,20 @@
       (handler request respond raise)))))
 
 (def ^:private app
-  (-> handler
+  (-> routes/handler
       wrap-session
       wrap-json-response
       wrap-json-body
       wrap-params
       wrap-keyword-params
       wrap-flash
-      wrap-prn-response
-      wrap-prn-request))
+      wrap-prn-response))
+
+(defn start-service []
+  (jetty/run-jetty (wrap-reload #'app) {:port 3002}))
 
 (defn -main [& args]
   (println "Started main")
   (case (first args)
     "migrate" (migrations/migrate)
-    (jetty/run-jetty app {:port 3000})))
-
-;(-main)
+    start-service))

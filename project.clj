@@ -6,6 +6,7 @@
                  [ring/ring-core "1.8.0"]
                  [ring/ring-jetty-adapter "1.8.0"]
                  [ring/ring-json "0.5.0"]
+                 [ring/ring-devel "1.6.3"]
                  [bidi "2.1.6"]
 
                  ;; log4j is only for dependencies.
