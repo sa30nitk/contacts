@@ -3,11 +3,11 @@
             [bidi.ring :refer [make-handler]]
             [contacts.handlers.contact :as contact]))
 
-(def ^:private internal-routes ["v1/" {"contacts" {:get    {""        contact/getContactsHandler
-                                                            ["/" :id] contact/getContact}
-                                                   :post   contact/createContactHandler
-                                                   :patch  contact/patchContactHandler
-                                                   :delete {["/" :id] contact/deleteContactHandler}}}])
+(def ^:private internal-routes ["v1/" {"contacts" {:get    {""        contact/get-contacts-handler
+                                                            ["/" :id] contact/get-contact-handler}
+                                                   :post   contact/create-contact-handler
+                                                   :patch  contact/patch-contact-handler
+                                                   :delete {["/" :id] contact/delete-contact-handler}}}])
 (def ^:private routes ["/" [["ping" ping/pingHandler]
                             internal-routes
                             [true (constantly {:status 404})]]])

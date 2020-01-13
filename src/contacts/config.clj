@@ -1,6 +1,6 @@
 (ns contacts.config)
 
-(def db-type "postgressql")
+(def db-type "postgresql")
 
 (def db-name "contacts")
 
