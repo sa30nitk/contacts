@@ -1,17 +1,11 @@
 (ns contacts.db-migrations
   (:require [ragtime.jdbc :as jdbc]
-            [ragtime.repl :as ragtime]))
-
-;(def spec
-;  (pool/make-datasource-spec
-;    {:subprotocol "postgresql"
-;     :subname     "//localhost:5432/contacts"
-;     :user        "gojek"
-;     :password    ""}))
+            [ragtime.repl :as ragtime]
+            [contacts.config :as config]))
 
 (def ^:private db
   (format "jdbc:%s://%s:%s/%s?user=%s&password=%s"
-          "postgresql" "localhost" 5432 "contacts" "gojek" ""))
+          config/db-type config/db-host config/db-port config/db-name config/db-user config/db-password))
 
 (defn- ^:private migration-config
   []

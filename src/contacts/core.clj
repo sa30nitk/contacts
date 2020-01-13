@@ -7,7 +7,8 @@
             [ring.middleware.keyword-params :refer [wrap-keyword-params]]
             [ring.middleware.reload :refer [wrap-reload]]
             [contacts.routes :as routes]
-            [contacts.db-migrations :as migrations]))
+            [contacts.db-migrations :as migrations]
+            [contacts.config :as config]))
 
 (defn wrap-prn-response
   [handler]
@@ -41,13 +42,13 @@
       wrap-params
       wrap-keyword-params
       wrap-flash
+      wrap-prn-request
       wrap-prn-response))
 
 (defn start-service []
-  (jetty/run-jetty (wrap-reload #'app) {:port 3002}))
+  (jetty/run-jetty (wrap-reload #'app) {:port config/app-port}))
 
 (defn -main [& args]
-  (println "Started main")
   (case (first args)
     "migrate" (migrations/migrate)
     start-service))
