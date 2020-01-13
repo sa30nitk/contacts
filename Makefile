@@ -25,16 +25,16 @@ testdb-drop:
 	dropdb --if-exists -Upostgres $(TEST_DB_NAME)
 
 db-user-create:
-	createuser -S gojek
+	createuser -S sa30
 
 db-su-create:
-	createuser -s gojek -h localhost -U postgres
+	createuser -s sa30 -h localhost -U postgres
 
 db-create:
-	createdb -p $(DB_PORT) -Ogojek -Eutf8 $(DB_NAME) -h localhost -U gojek
+	createdb -p $(DB_PORT) -Osa30 -Eutf8 $(DB_NAME) -h localhost -U sa30
 
 testdb-create:
-	createdb -O gojek $(TEST_DB_NAME)
+	createdb -O sa30 $(TEST_DB_NAME)
 
 db-migrate:
 	lein run migrate

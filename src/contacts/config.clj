@@ -6,7 +6,7 @@
 
 (def db-host "localhost")
 
-(def db-user "gojek")
+(def db-user "sa30")
 
 (def db-password "")
 
@@ -17,6 +17,5 @@
             :host     db-host
             :user     db-user
             :password db-password})
-
 
 (def app-port 3000)
