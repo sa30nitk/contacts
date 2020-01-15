@@ -8,14 +8,14 @@
 
 (defn get-contact-handler
   [{:keys [route-params]}]
-  ((try
-     (let [contact (j/get-by-id config/pg-db :contact (:id route-params))]
-       (if (not= contact nil) (res/response contact) (res/not-found (str "Contact not found"))))
-     (catch Exception e
-       (.printStackTrace e)
-       {:status  500
-        :headers {}
-        :body    {:error "internal server error"}}))))
+   (try
+       (let [contact (j/get-by-id config/pg-db :contact (:id route-params))]
+         (if (not= contact nil) (res/response contact) (res/not-found (str "Contact not found"))))
+       (catch Exception e
+         (.printStackTrace e)
+         {:status  500
+          :headers {}
+          :body    {:error "internal server error"}})))
 
 (defn delete-contact-handler
   [{:keys [route-params]}]
@@ -44,18 +44,18 @@
          :body    {:error "internal server error"}}))))
 
 (defn get-contacts-handler [request]
-  ((try
+  (try
      (let [contacts (j/query config/pg-db ["select * from contact"])]
        (if (not= contacts nil) (res/response contacts) (res/response {})))
      (catch Exception e
        (.printStackTrace e)
        {:status  500
         :headers {}
-        :body    {:error "internal server error"}}))))
+        :body    {:error "internal server error"}})))
 
 (defn patch-contact-handler
   [request]
-  ((try
+  (try
      (let [body           (request :body)
            keywordizeBody (walk/keywordize-keys body)
            id             (:id keywordizeBody)
@@ -66,4 +66,4 @@
        (.printStackTrace e)
        {:status  500
         :headers {}
-        :body    {:error "internal server error"}}))))
+        :body    {:error "internal server error"}})))
