@@ -44,3 +44,6 @@ coverage:
 
 lint:
 	lein eastwood
+
+uberjar:
+	lein uberjar
