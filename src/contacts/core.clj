@@ -1,4 +1,5 @@
 (ns contacts.core
+  (:gen-class)
   (:require [ring.adapter.jetty :as jetty]
             [ring.middleware.session :refer [wrap-session]]
             [ring.middleware.flash :refer [wrap-flash]]
@@ -51,4 +52,4 @@
 (defn -main [& args]
   (case (first args)
     "migrate" (migrations/migrate)
-    start-service))
+    (start-service)))
