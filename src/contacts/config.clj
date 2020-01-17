@@ -1,4 +1,6 @@
-(ns contacts.config)
+(ns contacts.config
+  (:require [hikari-cp.core :refer :all]
+            [clojure.java.jdbc :as jdbc]))
 
 (def db-type "postgresql")
 
@@ -19,3 +21,29 @@
             :password db-password})
 
 (def app-port 3000)
+
+(def datasource-options {:auto-commit        true
+                         :read-only          false
+                         :connection-timeout 30000
+                         :validation-timeout 5000
+                         :idle-timeout       600000
+                         :max-lifetime       1800000
+                         :minimum-idle       10
+                         :maximum-pool-size  40
+                         :pool-name          "db-pool"
+                         :adapter            db-type
+                         :username           db-user
+                         :password           db-password
+                         :database-name      db-name
+                         :server-name        db-host
+                         :port-number        db-port
+                         :register-mbeans    false})
+
+(defonce datasource
+         (delay (make-datasource datasource-options)))
+
+(defn main []
+  (jdbc/with-db-connection [conn {:datasource @datasource}]
+                           (let [rows (jdbc/query conn "SELECT 0")]
+                             (println rows)))
+  (close-datasource @datasource))

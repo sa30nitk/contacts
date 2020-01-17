@@ -4,29 +4,33 @@
             [clojure.walk :as walk]
             [contacts.config :as config]))
 
+(def database-connection {:datasource @config/datasource})
+
 (defn uuid [] (str (java.util.UUID/randomUUID)))
 
 (defn get-contact-handler
   [{:keys [route-params]}]
-   (try
-       (let [contact (j/get-by-id config/pg-db :contact (:id route-params))]
-         (if (not= contact nil) (res/response contact) (res/not-found (str "Contact not found"))))
-       (catch Exception e
-         (.printStackTrace e)
-         {:status  500
-          :headers {}
-          :body    {:error "internal server error"}})))
-
-(defn delete-contact-handler
-  [{:keys [route-params]}]
   (try
-    (let [isDeleted (j/delete! config/pg-db :contact ["id = ?" (:id route-params)])]
-      (if (= isDeleted (list 1)) (res/response "Successfully deleted") (res/not-found (str "Contact not found"))))
+    (j/with-db-connection [database-connection])
+    (let [contact (j/get-by-id database-connection :contact (:id route-params))]
+      (if (not= contact nil) (res/response contact) (res/not-found (str "Contact not found"))))
     (catch Exception e
       (.printStackTrace e)
       {:status  500
        :headers {}
-       :body    {:error "internal server error"}})))
+       :body    {:error "internal server error"}}))
+
+
+  (defn delete-contact-handler
+    [{:keys [route-params]}]
+    (try
+      (let [isDeleted (j/delete! config/pg-db :contact ["id = ?" (:id route-params)])]
+        (if (= isDeleted (list 1)) (res/response "Successfully deleted") (res/not-found (str "Contact not found"))))
+      (catch Exception e
+        (.printStackTrace e)
+        {:status  500
+         :headers {}
+         :body    {:error "internal server error"}}))))
 
 (defn create-contact-handler
   [request]
