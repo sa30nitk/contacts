@@ -42,9 +42,7 @@
       wrap-json-body
       wrap-params
       wrap-keyword-params
-      wrap-flash
-      wrap-prn-request
-      wrap-prn-response))
+      wrap-flash))
 
 (defn start-service []
   (jetty/run-jetty (wrap-reload #'app) {:port config/app-port}))
