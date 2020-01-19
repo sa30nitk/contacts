@@ -4,15 +4,12 @@
             [clojure.walk :as walk]
             [contacts.config :as config]))
 
-(def database-connection {:datasource @config/datasource})
-
 (defn uuid [] (str (java.util.UUID/randomUUID)))
 
 (defn get-contact-handler
   [{:keys [route-params]}]
   (try
-    (j/with-db-connection [database-connection])
-    (let [contact (j/get-by-id database-connection :contact (:id route-params))]
+    (let [contact (j/get-by-id config/pg-db :contact (:id route-params))]
       (if (not= contact nil) (res/response contact) (res/not-found (str "Contact not found"))))
     (catch Exception e
       (.printStackTrace e)
@@ -49,9 +46,10 @@
 
 (defn get-contacts-handler [request]
   (try
-     (let [contacts (j/query config/pg-db ["select * from contact"])]
-       (if (not= contacts nil) (res/response contacts) (res/response {})))
-     (catch Exception e
+    (j/with-db-connection [conn {:datasource @config/datasource}]
+                          (let [contacts (j/query conn ["select * from contact"])]
+                            (if (not= contacts nil) (res/response contacts) (res/response {}))))
+    (catch Exception e
        (.printStackTrace e)
        {:status  500
         :headers {}

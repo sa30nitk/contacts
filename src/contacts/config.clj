@@ -29,7 +29,7 @@
                          :idle-timeout       600000
                          :max-lifetime       1800000
                          :minimum-idle       10
-                         :maximum-pool-size  40
+                         :maximum-pool-size  10
                          :pool-name          "db-pool"
                          :adapter            db-type
                          :username           db-user
@@ -41,9 +41,3 @@
 
 (defonce datasource
          (delay (make-datasource datasource-options)))
-
-(defn main []
-  (jdbc/with-db-connection [conn {:datasource @datasource}]
-                           (let [rows (jdbc/query conn "SELECT 0")]
-                             (println rows)))
-  (close-datasource @datasource))
